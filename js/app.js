@@ -1,7 +1,7 @@
 const { createApp, ref, computed } = Vue;
 
 // Constants and configurations
-const API_KEY = '2bfb13fc-7255-4c70-8195-851d991a799b';
+const API_KEY = '8bf06638-40e7-4aaf-922b-10a691d55b28';
 const POLLUTANT_THRESHOLDS = {
     pm25: { good: 12, moderate: 35.4, unhealthy: 55.4, veryUnhealthy: 150.4, hazardous: 250.4 },
     pm10: { good: 54, moderate: 154, unhealthy: 254, veryUnhealthy: 354, hazardous: 424 },
@@ -155,8 +155,38 @@ createApp({
               'Bangkok': { lat: 13.7563, lon: 100.5018 },
               'Chiang Mai': { lat: 18.7883, lon: 98.9853 },
               'Phuket': { lat: 7.9519, lon: 98.3381 },
-              'Sisaket': { lat: 15.1186, lon: 104.3228 }, // พิกัดศรีสะเกษ
-              'Si Sa Ket': { lat: 15.1186, lon: 104.3228 } // พิกัดศรีสะเกษ (ชื่อทางเลือก)
+              'Phang Nga': { lat: 8.4500, lon: 98.5256 },
+              'Ubon Ratchathani': { lat: 15.2442, lon: 104.8473 },
+              'Phatthalung': { lat: 7.6170, lon: 100.0740 },
+              'Chanthaburi': { lat: 12.6113, lon: 102.1030 },
+              'Chiang Rai': { lat: 19.9105, lon: 99.8406 },
+              'Nakhon Si Thammarat': { lat: 8.4304, lon: 99.9631 },
+              'Nonthaburi': { lat: 13.8621, lon: 100.5144 },
+              'Nan': { lat: 18.7756, lon: 100.7731 },
+              'Bueng Kan': { lat: 18.3609, lon: 103.6464 },
+              'Buri Ram': { lat: 14.9930, lon: 103.1029 },
+              'Pathum Thani': { lat: 14.0200, lon: 100.5250 },
+              'Prachin Buri': { lat: 14.0479, lon: 101.3683 },
+              'Pattani': { lat: 6.8697, lon: 101.2501 },
+              'Phra Nakhon Si Ayutthaya': { lat: 14.3532, lon: 100.5684 },
+              'Phichit': { lat: 16.2650, lon: 100.3387 },
+              'Phitsanulok': { lat: 16.8211, lon: 100.2659 },
+              'Phetchaburi': { lat: 13.1136, lon: 99.9394 },
+              'Phetchabun': { lat: 16.4391, lon: 101.1590 },
+              'Phayao': { lat: 19.2154, lon: 100.2024 },
+              'Ranong': { lat: 9.9529, lon: 98.6085 },
+              'Rayong': { lat: 12.6825, lon: 101.2813 },
+              'Lamphun': { lat: 18.5740, lon: 99.0087 },
+              'Songkhla': { lat: 7.1897, lon: 100.5954 },
+              'Satun': { lat: 6.6238, lon: 100.0674 },
+              'Samut Prakan': { lat: 13.5991, lon: 100.5998 },
+              'Samut Songkhram': { lat: 13.4098, lon: 100.0023 },
+              'Sa Kaeo': { lat: 13.8240, lon: 102.0646 },
+              'Saraburi': { lat: 14.5289, lon: 100.9101 },
+              'Suphan Buri': { lat: 14.4745, lon: 100.1177 },
+              'Surat Thani': { lat: 9.1382, lon: 99.3215 },
+              'Uthai Thani': { lat: 15.3821, lon: 99.5260 },
+              'Uttaradit': { lat: 17.6256, lon: 100.0943 }
             };
             
             // ถ้ามีพิกัดในฐานข้อมูล

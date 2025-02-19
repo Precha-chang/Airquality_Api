@@ -5,42 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ค่าคุณภาพอากาศในประเทศไทย</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(45deg, #000428, #004e92);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(62, 184, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(41, 121, 255, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(white, white) padding-box,
+                       linear-gradient(45deg, #00c6ff, #0072ff) border-box;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .gradient-border:hover {
+            background: linear-gradient(white, white) padding-box,
+                       linear-gradient(45deg, #0072ff, #00c6ff) border-box;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .glow {
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(0, 114, 255, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 114, 255, 0.4); }
+            100% { box-shadow: 0 0 5px rgba(0, 114, 255, 0.2); }
+        }
+
+        .rotate-bg {
+            background: conic-gradient(from 0deg, #00c6ff, #0072ff, #00c6ff);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .metric-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 114, 255, 0.5);
+            border-radius: 3px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .weather-icon {
+            filter: drop-shadow(0 0 8px rgba(0, 114, 255, 0.3));
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
+<body class="py-12 px-4">
     <div id="app">
-        <div class="container mx-auto p-4 max-w-4xl">
-            <!-- Main Card Container -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 mt-8">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Main Container -->
+            <div class="glass-morphism rounded-3xl p-10 transition-all duration-300">
                 <!-- Header Section -->
-                <header class="text-center mb-8">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">🌍 ค่าคุณภาพอากาศในประเทศไทย</h1>
-                    <p class="text-gray-600">ระบบตรวจสอบคุณภาพอากาศแบบเรียลไทม์</p>
+                <header class="text-center mb-12 floating">
+                    <h1 class="text-5xl font-bold  mb-4">
+                        🌍 Air Quality Thailand
+                    </h1>
+                    <p class="text-xl text-gray-600">ระบบตรวจสอบคุณภาพอากาศแบบเรียลไทม์</p>
                 </header>
 
                 <!-- Search Section -->
-                <div class="relative mb-6">
-                    <input
-                        type="text"
-                        v-model="searchTerm"
-                        @input="handleSearch"
-                        placeholder="พิมพ์ชื่อจังหวัด..."
-                        class="w-full p-4 border-2 border-gray-200 rounded-xl pl-12 focus:border-blue-500 focus:outline-none transition duration-300"
-                    />
-                    <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <div class="relative mb-10">
+                    <div class="p-0.5 rounded-2xl glow"> 
+                        <input
+                            type="text"
+                            v-model="searchTerm"
+                            @input="handleSearch"
+                            placeholder="ค้นหาจังหวัดของคุณ..."
+                            class="w-full p-6 rounded-2xl pl-16 search-input text-lg focus:outline-none"
+                        />
+                    </div>
+                    <span class="absolute left-6 top-1/2 transform -translate-y-1/2 text-3xl floating">
                         🔍
                     </span>
                     
                     <!-- Dropdown Results -->
                     <div v-if="showDropdown && filteredProvinces.length > 0" 
-                         class="absolute z-10 w-full mt-2 bg-white border rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                         class="absolute z-10 w-full mt-2 glass-morphism rounded-2xl shadow-2xl max-h-64 overflow-y-auto custom-scrollbar">
                         <div
                             v-for="province in filteredProvinces"
                             :key="province"
                             @click="selectProvince(province)"
-                            class="p-3 hover:bg-blue-50 cursor-pointer transition duration-200"
+                            class="p-4 hover:bg-blue-50 cursor-pointer transition-all duration-200 gradient-border"
                         >
                             {{ province }}
                         </div>
@@ -51,42 +208,40 @@
                 <button 
                     @click="fetchAirQuality"
                     :disabled="loading"
-                    class="w-full bg-blue-600 text-white p-4 rounded-xl hover:bg-blue-700 disabled:bg-blue-300 transition duration-300 mb-6 font-medium"
+                    class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-2xl hover:from-blue-700 hover:to-blue-900 disabled:from-blue-300 disabled:to-blue-400 transition-all duration-300 mb-10 font-medium text-xl shadow-lg pulse"
                 >
-                    {{ loading ? 'กำลังโหลด...' : 'ดึงข้อมูล' }}
+                    {{ loading ? '⚡ กำลังประมวลผล...' : '🔄 ดึงข้อมูลคุณภาพอากาศ' }}
                 </button>
 
-                <!-- Error Message -->
-                <div v-if="error" class="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl mb-6">
-                    {{ error }}
-                </div>
-
                 <!-- Air Quality Data -->
-                <div v-if="airQuality" class="space-y-6">
+                <div v-if="airQuality" class="space-y-10">
                     <!-- AQI Level Card -->
-                    <div :class="[getAqiClass(airQuality.aqi), 'p-6 rounded-xl transition duration-300']">
-                        <p class="text-xl font-semibold mb-2">
-                            คุณภาพอากาศ (AQI): {{ airQuality.aqi }}
-                        </p>
-                        <p class="text-lg mb-2">ระดับ: {{ getAqiLevel(airQuality.aqi) }}</p>
-                        <p class="text-sm opacity-90">{{ getHealthAdvice(airQuality.aqi) }}</p>
+                    <div :class="[getAqiClass(airQuality.aqi), 'p-8 rounded-3xl transition-all duration-300 shadow-xl card-hover metric-card']">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-3xl font-bold">คุณภาพอากาศ (AQI)</h2>
+                            <div class="text-5xl font-bold floating">{{ airQuality.aqi }}</div>
+                        </div>
+                        <p class="text-2xl mb-4">ระดับ: {{ getAqiLevel(airQuality.aqi) }}</p>
+                        <p class="text-xl opacity-90">{{ getHealthAdvice(airQuality.aqi) }}</p>
                     </div>
 
-                    <!-- Detailed Data Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Data Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <!-- Pollutants Card -->
-                        <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-                            <h3 class="font-semibold text-lg mb-4">ข้อมูลมลพิษทางอากาศ</h3>
+                        <div class="glass-morphism rounded-3xl p-8 shadow-xl card-hover">
+                            <h3 class="text-2xl font-bold gradient-text mb-8">ข้อมูลมลพิษทางอากาศ</h3>
                             <p class="mb-4">🔬 สารมลพิษหลัก: {{ getPollutantThai(airQuality.main_pollutant) }}</p>
-                            <div class="space-y-3">
+                            <div class="space-y-6">
                                 <template v-for="(value, key) in airQuality.pollutants" :key="key">
                                     <div v-if="value !== null && value !== undefined" 
-                                         class="flex justify-between items-center">
-                                        <span class="text-gray-700">{{ getPollutantThai(key) }}:</span>
-                                        <div class="flex items-center space-x-2">
-                                            <span>{{ value.toFixed(1) }} µg/m³</span>
-                                            <div class="w-3 h-3 rounded-full" 
-                                                 :class="getPollutantLevelClass(key, value)">
+                                         class="p-4 bg-white rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-medium">{{ getPollutantThai(key) }}</span>
+                                            <div class="flex items-center space-x-4">
+                                                <span class="text-xl font-bold">{{ value.toFixed(1) }} µg/m³</span>
+                                                <div class="w-5 h-5 rounded-full" 
+                                                     :class="getPollutantLevelClass(key, value)">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -95,59 +250,147 @@
                         </div>
 
                         <!-- Weather Card -->
-                        <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-                            <h3 class="font-semibold text-lg mb-4">ข้อมูลสภาพอากาศ</h3>
-                            <div class="space-y-3">
-                                <p>🌡️ อุณหภูมิ: {{ airQuality.weather.temperature }}°C</p>
-                                <p>💨 ความเร็วลม: {{ (airQuality.weather.wind_speed * 3.6).toFixed(1) }} km/h</p>
-                                <p>🧭 ทิศทางลม: {{ getWindDirection(airQuality.weather.wind_direction) }}</p>
-                                <p>💦 ความชื้น: {{ airQuality.weather.humidity }}%</p>
-                                <p>🌅 ความกดอากาศ: {{ airQuality.weather.pressure }} hPa</p>
-                                <p v-if="airQuality.weather.precipitation !== null">
-                                    🌧️ ปริมาณน้ำฝน: {{ airQuality.weather.precipitation }} mm
-                                </p>
+                        <div class="glass-morphism rounded-3xl p-8 shadow-xl card-hover">
+                            <h3 class="text-2xl font-bold gradient-text mb-8">ข้อมูลสภาพอากาศ</h3>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2 p-6 bg-white rounded-2xl shadow-md weather-icon">
+                                    <p class="text-xl mb-2">🌡️ อุณหภูมิ</p>
+                                    <p class="text-3xl font-bold gradient-text">
+                                        {{ airQuality.weather.temperature }}°C
+                                    </p>
+                                </div>
+                                <div class="p-6 bg-white rounded-2xl shadow-md weather-icon">
+                                    <p class="text-lg mb-2">💨 ความเร็วลม</p>
+                                    <p class="text-2xl font-bold">
+                                        {{ (airQuality.weather.wind_speed * 3.6).toFixed(1) }} km/h
+                                    </p>
+                                </div>
+                                <div class="p-6 bg-white rounded-2xl shadow-md weather-icon">
+                                    <p class="text-lg mb-2">💦 ความชื้น</p>
+                                    <p class="text-2xl font-bold">{{ airQuality.weather.humidity }}%</p>
+                                </div>
+                                <div class="col-span-2 p-6 bg-white rounded-2xl shadow-md weather-icon">
+                                    <p class="text-lg mb-2">🧭 ทิศทางลม</p>
+                                    <p class="text-2xl font-bold">
+                                        {{ getWindDirection(airQuality.weather.wind_direction) }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Health Recommendations -->
-                    <div class="bg-blue-50 rounded-xl p-6">
-                        <h3 class="font-semibold text-lg mb-4">คำแนะนำสำหรับสุขภาพ</h3>
-                        <ul class="space-y-2">
-                            <li v-for="(rec, index) in getHealthRecommendations(airQuality.aqi)" 
+                    <div class="glass-morphism rounded-3xl p-8 shadow-2xl card-hover border border-white/20 backdrop-blur-lg">
+                        <h3 class="text-3xl font-extrabold gradient-text mb-6 text-center">คำแนะนำสำหรับสุขภาพ</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div v-for="(rec, index) in getHealthRecommendations(airQuality.aqi)" 
                                 :key="index" 
-                                class="flex items-start">
-                                <span class="mr-2">•</span>
-                                <span class="text-gray-700">{{ rec }}</span>
-                            </li>
-                        </ul>
+                                class="p-6 bg-white/80 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 flex items-center">
+                                <span class="mr-3 text-blue-600 text-2xl">•</span>
+                                <p class="text-lg text-gray-900">{{ rec }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Station Info -->
+                    <div class="glass-morphism rounded-3xl p-8 shadow-xl card-hover">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="p-6 bg-white rounded-2xl shadow-md">
+                                <p class="text-lg mb-2">🏢 สถานีตรวจวัด</p>
+                                <p class="text-xl font-bold">{{ airQuality.station }}</p>
+                            </div>
+                            <div class="p-6 bg-white rounded-2xl shadow-md">
+                                <p class="text-lg mb-2">⏰ อัพเดทล่าสุด</p>
+                                <p class="text-xl font-bold">
+                                    {{ new Date(airQuality.timestamp).toLocaleString('th-TH') }}
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AQI Index Guide -->
+                    <div class="glass-morphism rounded-3xl p-8 shadow-xl card-hover">
+                        <h3 class="text-2xl font-bold gradient-text mb-8">ระดับคุณภาพอากาศ</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+                            <div class="p-6 bg-green-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <div class="w-6 h-6 rounded-full bg-green-500"></div>
+                                    <span class="text-xl font-bold text-green-700">ดี</span>
+                                </div>
+                                <p class="text-green-600">0-50</p>
+                                <p class="text-sm text-green-600 mt-2">คุณภาพอากาศดี เหมาะสำหรับกิจกรรมกลางแจ้ง</p>
+                            </div>
+
+                            <div class="p-6 bg-yellow-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <div class="w-6 h-6 rounded-full bg-yellow-500"></div>
+                                    <span class="text-xl font-bold text-yellow-700">ปานกลาง</span>
+                                </div>
+                                <p class="text-yellow-600">51-100</p>
+                                <p class="text-sm text-yellow-600 mt-2">คุณภาพอากาศปานกลาง สามารถทำกิจกรรมกลางแจ้งได้</p>
+                            </div>
+
+                            <div class="p-6 bg-orange-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <div class="w-6 h-6 rounded-full bg-orange-500"></div>
+                                    <span class="text-xl font-bold text-orange-700">เริ่มมีผลต่อสุขภาพ</span>
+                                </div>
+                                <p class="text-orange-600">101-150</p>
+                                <p class="text-sm text-orange-600 mt-2">ควรลดระยะเวลาการทำกิจกรรมกลางแจ้ง</p>
+                            </div>
+
+                            <div class="p-6 bg-red-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <div class="w-6 h-6 rounded-full bg-red-500"></div>
+                                    <span class="text-xl font-bold text-red-700">อันตราย</span>
+                                </div>
+                                <p class="text-red-600">151-200</p>
+                                <p class="text-sm text-red-600 mt-2">ควรหลีกเลี่ยงการทำกิจกรรมกลางแจ้ง</p>
+                            </div>
+
+                            <div class="p-6 bg-purple-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <div class="w-6 h-6 rounded-full bg-purple-500"></div>
+                                    <span class="text-xl font-bold text-purple-700">อันตรายมาก</span>
+                                </div>
+                                <p class="text-purple-600">>200</p>
+                                <p class="text-sm text-purple-600 mt-2">งดกิจกรรมกลางแจ้งทุกชนิด</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Additional Information -->
-                    <div class="bg-gray-50 rounded-xl p-6">
-                        <h3 class="font-semibold text-lg mb-4">ข้อมูลเพิ่มเติม</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <p class="font-medium mb-2">ดัชนีคุณภาพอากาศ (AQI)</p>
-                                <ul class="space-y-1 text-gray-700">
-                                    <li>0-50: คุณภาพดี</li>
-                                    <li>51-100: ปานกลาง</li>
-                                    <li>101-150: ไม่ดีต่อสุขภาพ</li>
-                                    <li>151-200: อันตราย</li>
-                                    <li>>200: อันตรายอย่างยิ่ง</li>
-                                </ul>
+                    <div class="glass-morphism rounded-3xl p-8 shadow-xl card-hover">
+                        <h3 class="text-2xl font-bold gradient-text mb-8">ข้อมูลเพิ่มเติม</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="text-4xl mb-4">📊</div>
+                                <h4 class="text-xl font-bold mb-3">การวัดค่า AQI</h4>
+                                <p class="text-gray-600">ค่า AQI คำนวณจากค่าเฉลี่ยของมลพิษทางอากาศในช่วง 24 ชั่วโมง</p>
                             </div>
-                            <div>
-                                <p class="font-medium mb-2">แหล่งข้อมูล</p>
-                                <ul class="space-y-1 text-gray-700">
-                                    <li>🏢 สถานีตรวจวัด: {{ airQuality.station }}</li>
-                                    <li>⏰ อัพเดทล่าสุด: {{ new Date(airQuality.timestamp).toLocaleString('th-TH') }}</li>
-                                </ul>
+
+                            <div class="p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="text-4xl mb-4">⚡</div>
+                                <h4 class="text-xl font-bold mb-3">การอัพเดทข้อมูล</h4>
+                                <p class="text-gray-600">ข้อมูลได้รับการอัพเดททุก 1 ชั่วโมงจากสถานีตรวจวัด</p>
+                            </div>
+
+                            <div class="p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                                <div class="text-4xl mb-4">🎯</div>
+                                <h4 class="text-xl font-bold mb-3">ความแม่นยำ</h4>
+                                <p class="text-gray-600">ข้อมูลมีความแม่นยำสูงด้วยเครื่องมือวัดมาตรฐานสากล</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <footer class="text-center mt-8 text-white opacity-70">
+                <p>© 2025 Air Quality Monitoring System Thailand</p>
+            </footer>
         </div>
     </div>
     <script src="js/app.js" defer></script>
